@@ -320,6 +320,14 @@ authors: zkhan, jlmcgraw
             android:key="@string/GameTFR"
             android:summary="@string/GameTFRSummary"
             android:title="@string/GameTFRLabel" />
+        <com.ds.avare.utils.ListPreferenceWithSummary
+            android:key="@string/DefaultAFD"
+            android:defaultValue="avare"
+            android:entries="@array/DefaultAFDPrompts"
+            android:entryValues="@array/DefaultAFDValues"
+            android:summary="@string/DefaultAFDSummary"
+            android:title="@string/DefaultAFDLabel" />
+
     </PreferenceScreen>
 
 	<PreferenceScreen 

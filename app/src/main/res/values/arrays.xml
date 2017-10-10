@@ -2296,4 +2296,14 @@ Redistribution and use in source and binary forms, with or without modification,
         <item>&quot;You can change the shown chart type in Map screen by long pressing on the Map tab&quot;</item>
     </string-array>
 
+    <string-array name="DefaultAFDPrompts">
+        <item>Avare Data</item>
+        <item>FAA A/FD Images</item>
+    </string-array>
+
+    <string-array name="DefaultAFDValues">
+        <item>avare</item>
+        <item>faa</item>
+    </string-array>
+
 </resources>

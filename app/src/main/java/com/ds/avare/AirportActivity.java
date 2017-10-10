@@ -403,6 +403,11 @@ public class AirportActivity extends Activity implements Observer {
                 }
                 mService.setAfdIndex(pos);
             }
+            //if afd is null, avare is going to fall back to Avare A/FD data
+            //we need to set the view button to A/FD
+            else {
+                mViewButton.setText(mListViews.get(0));
+            }
         }
     }
 
@@ -467,7 +472,7 @@ public class AirportActivity extends Activity implements Observer {
             else if(curDest != null && curDest.getID().equals(airport) && curDest.getType().equals(Destination.BASE)) {
                 mDestination = curDest;
                 setupViewInfo();
-                viewPos = 0;
+                viewPos = getDefaultAfdIndex();
             }
             else {
                 viewPos = 0;
@@ -647,12 +652,30 @@ public class AirportActivity extends Activity implements Observer {
                 }
 
                 setupViewInfo();
-                setViewFromPos(0);
+                setViewFromPos(getDefaultAfdIndex());
             }
             else {
                 mToast.setText(getString(R.string.DestinationNF));
                 mToast.show();
             }
+        }
+    }
+
+    /**
+     * Returns an integer to index into the A/FD array based on the users's
+     * preference to see Avare Data or FAA A/FD Images by default. When the
+     * array is built, Avare Data is the first element and the first AF/D
+     * image is the second element.
+     * @return 0 if preferences default to Avare Data, 1 if preferences
+     * default to FAA A/FD Images.
+     * @see #setViewFromPos
+     */
+    private int getDefaultAfdIndex() {
+        if("avare".equals(mPref.getDefaultAFD())) {
+            return 0;
+        }
+        else {
+            return 1;
         }
     }
 }

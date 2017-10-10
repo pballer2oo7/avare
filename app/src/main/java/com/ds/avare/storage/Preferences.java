@@ -1234,6 +1234,10 @@ public class Preferences {
     public void putWnbs(String name) {
         mPref.edit().putString(mContext.getString(R.string.Wnb), name).commit();
     }
+
+    public String getDefaultAFD() {
+        return mPref.getString(mContext.getString(R.string.DefaultAFD), "avare");
+    }
 }
 
 

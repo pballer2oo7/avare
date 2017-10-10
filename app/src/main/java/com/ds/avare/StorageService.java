@@ -60,6 +60,7 @@ import com.ds.avare.shapes.ShapeFileShape;
 import com.ds.avare.shapes.TFRShape;
 import com.ds.avare.shapes.TileMap;
 import com.ds.avare.content.DataSource;
+import com.ds.avare.storage.Preferences;
 import com.ds.avare.userDefinedWaypoints.UDWMgr;
 import com.ds.avare.utils.BitmapHolder;
 import com.ds.avare.utils.InfoLines;
@@ -353,7 +354,7 @@ public class StorageService extends Service {
         mOrientationCallbacks = new LinkedList<OrientationInterface>();
         mAfdDiagramBitmap = null;
         mPlateDiagramBitmap = null;
-        mAfdIndex = 0;
+        mAfdIndex = getDefaultAfdIndex();
         mOverrideListName = null;
         mTrafficCache = new TrafficCache();
         mLocationSem = new Mutex();
@@ -716,7 +717,7 @@ public class StorageService extends Service {
      */
     public void setDestination(Destination destination) {
         mDestination = destination;
-        mAfdIndex = 0;
+        mAfdIndex = getDefaultAfdIndex();
 
         // A direct destination implies a new plan. Ensure to turn off
         // the plan
@@ -730,7 +731,7 @@ public class StorageService extends Service {
      */
     public void setDestinationPlanNoChange(Destination destination) {
         mDestination = destination;
-        mAfdIndex = 0;
+        mAfdIndex = getDefaultAfdIndex();
         
         // Update the right side of the nav comments from the destination
         // TODO: I don't like this here, it should be pushed into the PLAN itself
@@ -1338,5 +1339,24 @@ public class StorageService extends Service {
 
     public LinkedList<Obstacle> getObstacles() {
         return mObstacles;
+    }
+
+    /**
+     * Returns an integer used by {@link com.ds.avare.place.Airport} to
+     * index into the A/FD array. When the array is built, Avare Data is
+     * the first element and the first downloaded FAA AF/D Image is the
+     * second element. {@link StorageService} should store the default
+     * that the user has set in preferences.
+     * @return 0 if preferences default to Avare Data, 1 if preferences
+     * default to FAA A/FD Images
+     * @see AirportActivity#setViewFromPos
+     */
+    private int getDefaultAfdIndex() {
+        if("avare".equals(new Preferences(getApplicationContext()).getDefaultAFD())) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
 }
